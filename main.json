@@ -3,9 +3,9 @@
 	"author":"Ritashugisha",
 	"contact":"ritashugisha@gmail.com",
 	"packages":[
-		{"id":"cocoadialog", "name":"cocoaDialog.app", "version":"3.0", "exec":"/cocoaDialog.app/Contents/MacOS/cocoaDialog", "bene":"version | cut -c 1-3", "link":"/mstratman.cocoadialog/3.0/cocoaDialog.tar.gz"},
-		{"id":"chromedriver", "name":"chromedriver", "version":"0.0", "exec":"", "bene":"", "link":"/google.chromedriver/0.0/chromedriver.tar.gz"},
-		{"id":"terminal-notifier", "name":"terminal-notifier.app", "version":"1.5", "exec":"/terminal-notifer.app/Contents/MacOS/terminal-notifier", "bene":"|sed -n 1p|cut -d '(' -f 2|cut -d ')' -f 1|cut -d '.' -f 1-2", "link":"/alloy.terminal-notifier/1.5/terminal-notifier.tar.gz"},
-		{"id":"progressbar", "name":"ProgressBar.scptd", "version":"0.0", "exec":"", "bene":"", "link":"/ritashugisha.progressbar/0.0/ProgressBar.tar.gz"}
+		{"id":"google.cocoadialog", "name":"cocoaDialog.app", "version":"3.0", "exec":"/cocoaDialog.app/Contents/MacOS/cocoaDialog", "bene":"version | cut -c 1-3", "link":"/mstratman.cocoadialog/3.0/cocoaDialog.tar.gz"},
+		{"id":"mstratman.chromedriver", "name":"chromedriver", "version":"0.0", "exec":"", "bene":"", "link":"/google.chromedriver/0.0/chromedriver.tar.gz"},
+		{"id":"alloy.terminal-notifier", "name":"terminal-notifier.app", "version":"1.5", "exec":"/terminal-notifer.app/Contents/MacOS/terminal-notifier", "bene":"|sed -n 1p|cut -d '(' -f 2|cut -d ')' -f 1|cut -d '.' -f 1-2", "link":"/alloy.terminal-notifier/1.5/terminal-notifier.tar.gz"},
+		{"id":"ritashugisha.progressbar", "name":"ProgressBar.scptd", "version":"0.0", "exec":"", "bene":"", "link":"/ritashugisha.progressbar/0.0/ProgressBar.tar.gz"}
 	]
 }
