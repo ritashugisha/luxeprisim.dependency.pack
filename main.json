@@ -3,6 +3,6 @@
 	"author":"Ritashugisha",
 	"contact":"ritashugisha@gmail.com",
 	"packages":[
-		{"id":"cocoadialog", "name":"cocoaDialog.app", "version":"3.0", "exec":"%s/cocoaDialog.app/Contents/MacOS/cocoaDilaog", "bene":"version | cut -c 1-3", "link":"/cocoadialog/3.0/cocoaDialog.app.zip"}
+		{"id":"cocoadialog", "name":"cocoaDialog.app", "version":"3.0", "exec":"/cocoaDialog.app/Contents/MacOS/cocoaDilaog", "bene":"version | cut -c 1-3", "link":"/cocoadialog/3.0/cocoaDialog.app.zip"}
 	]
 }
