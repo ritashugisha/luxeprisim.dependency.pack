@@ -46,7 +46,7 @@ Display an error message to the console then exit system.
 
 :param str header: error type
 :param str message: message linked to error
-"""	
+"""
 def onError(header, message):
 	sys.stdout.write('\033[31m\033[1m%s:\033[0m %s\n' % (header, message))
 	sys.exit(0)
@@ -57,7 +57,7 @@ Display a warning message to the console.
 
 :param str header: warning type
 :param str message: message linked to warning
-"""	
+"""
 def onWarning(header, message):
 	sys.stdout.write('\033[33m\033[1m%s:\033[0m %s\n' % (header, message))
 
@@ -74,20 +74,20 @@ def onVerbose(message, display):
 		header = '%s<%s@%s>' % (os.path.basename(__file__), info.function, info.lineno)
 		sys.stdout.write('%s%s%s\n' % (header, ' ' * (40 - len(header)), message))
 
-		
+
 """
 .. py:class:: PackageManager()
 Alfred workflow resource dependency package manager.
 """
 class PackageManager():
-	
+
 	"""
 	.. py:function:: __init__(self, requiredDependencies = [], verbose = False)
 	Initialize the PackageManager object, configure, and install dependencies.
-	
+
 	:param list requiredDependencies: list of dictionaries formatted as such ``{'title':'TITLE_OF_PKG', 'dest':'PATH_TO_SAVE'}``
 	:param bool verbose: true if verbose output is allowed
-	""" 
+	"""
 	def __init__(self, requiredDependencies = [], verbose = False):
 		self.requiredDependencies = requiredDependencies
 		self.verbose   = verbose
@@ -102,45 +102,45 @@ class PackageManager():
 		self.resources = self.jsonRead['packages']
 		self.configure()
 		self.installDependencies()
-	
+
 	"""
 	.. py:function:: __str__(self)
 	Return a string representation of the PackageManager object.
-	
+
 	:returns: PackageManager's representation
 	:rtype: str
 	"""
 	def __str__(self):
 		return '%s v%s by %s (%s)' % (os.path.basename(__file__), self.version, self.author, self.contact)
-	
+
 	"""
 	.. py:function:: isValidQuery(self, dependency)
 	Test if the passed dependency dictionary is formatted correctly.
-	
+
 	:param dict dependency: dictionary formatted as such ``{'title':'TITLE_OF_PKG', 'dest':'PATH_TO_SAVE'}``
 	:returns: true if valid
 	:rtype: bool
 	"""
 	def isValidQuery(self, dependency):
 		result = False
-		onVerbose('checking if "%s" is valid' % str({'id':dependency['id'], 
+		onVerbose('checking if "%s" is valid' % str({'id':dependency['id'],
 			'dest':dependency['dest']}), self.verbose)
-		if isinstance(dependency, dict): 
+		if isinstance(dependency, dict):
 			if 'id' in dependency and 'dest' in dependency:
 				if len(dependency['id']) > 0 and len(dependency['dest']) > 0:
 					result = True
 		if not result:
 			onWarning('MalformedQuery', dependency)
 		return result
-	
+
 	"""
 	.. py:function:: isDependency(self, dependency)
 	Check if the passed dependency dictionary exists.
-	
+
 	:param dict dependency: dictionary formatted as such ``{'title':'TITLE_OF_PKG', 'dest':'PATH_TO_SAVE'}``
 	:returns: true if valid
 	:rtype: bool
-	"""	
+	"""
 	def isDependency(self, dependency):
 		result = False
 		onVerbose('checking if "%s" is an actual dependency' % dependency['id'], self.verbose)
@@ -150,11 +150,11 @@ class PackageManager():
 		if not result:
 			onWarning('InvalidDependency', dependency)
 		return result
-	
+
 	"""
 	.. py:function:: formatQuery(self, dependency)
 	Reformat the passed dependency's dictionary destination if need be.
-	
+
 	:param dict dependency: dictionary formatted as such ``{'title':'TITLE_OF_PKG', 'dest':'PATH_TO_SAVE'}``
 	:returns: formatted dependency dictionary
 	:rtype: dict
@@ -167,11 +167,11 @@ class PackageManager():
 				dependency['dest'] = '/%s' % dependency['dest']
 			onVerbose('reformatted %s\'s dest to "%s"' % (dependency['id'], dependency['dest']), self.verbose)
 			return dependency
-	
+
 	"""
 	.. py:function:: linkDependency(self, dependency)
 	Add the items of the remote dependency dictionary to the local one.
-	
+
 	:param dict dependency: dictionary formatted as such ``{'title':'TITLE_OF_PKG', 'dest':'PATH_TO_SAVE'}``
 	:returns: formatted dependency dictionary
 	:rtype: dict
@@ -188,11 +188,11 @@ class PackageManager():
 		else:
 			onError('UnexpectedError',
 				'encountered error when trying to link <%s>' % dependency['id'])
-	
+
 	"""
 	.. py:function:: isInstalled(self, dependency)
 	Check if the dependency from the dependency dictionary already exists at the destination.
-	
+
 	:param dict dependency: dictionary formatted as such ``{'title':'TITLE_OF_PKG', 'dest':'PATH_TO_SAVE'}``
 	:returns: true if dependency exists at destination
 	:rtype: bool
@@ -202,15 +202,15 @@ class PackageManager():
 			dependency = self.linkDependency(dependency)
 		onVerbose('checking if "%s" exists at "%s"' % (dependency['name'], dependency['dest']), self.verbose)
 		return os.path.exists('%s/%s' % (dependency['dest'], dependency['name']))
-	
+
 	"""
 	.. py:function:: isEqual(self, dependency)
 	Check if the dependency installed at the destination is not outdated from the remote resource.
-	
+
 	:param dict dependency: dictionary formatted as such ``{'title':'TITLE_OF_PKG', 'dest':'PATH_TO_SAVE'}``
 	:returns: true if version is not outdated
 	:rtype: bool
-	"""	
+	"""
 	def isEqual(self, dependency):
 		result = False
 		if self.isInstalled(self.linkDependency(dependency)):
@@ -225,7 +225,7 @@ class PackageManager():
 				'"%s" is not installed to "%s"' % (dependency['id'],
 				dependency['dest']))
 		return result
-	
+
 	"""
 	.. py:function:: listDependencies(self)
 	List all available dependencies from the remote json.
@@ -234,10 +234,10 @@ class PackageManager():
 		onVerbose('listing available dependencies', self.verbose)
 		outString = '%s v%s - by %s\n' % (os.path.basename(__file__), self.version, self.author)
 		for i in self.resources:
-			outString = '%s{"id":"%s", "name":"%s", "version":"%s", "link":"%s"}\n' % (outString, 
-				i['id'], i['name'], i['version'], i['link']) 
-		return outString	
-	
+			outString = '%s{"id":"%s", "name":"%s", "version":"%s", "link":"%s"}\n' % (outString,
+				i['id'], i['name'], i['version'], i['link'])
+		return outString
+
 	"""
 	.. py:function:: configure(self)
 	Configure all of PackageManager's variables.
@@ -253,7 +253,7 @@ class PackageManager():
 			if self.isInstalled(i):
 				if self.isEqual(i):
 					self.requiredDependencies.remove(i)
-	
+
 	"""
 	.. py:function:: installDependencies(self)
 	Try and install all valid and available dependencies.
@@ -283,7 +283,7 @@ Return the usage string of the command-line help argument.
 def getUsage():
 	return '\n'.join(['%(prog)s',
 		'\t[-h] [-i DEPENDENCIES...] [-o DESTINATIONS...]',
-		'\t[--list-dependencies]',
+		'\t[--list-packages]',
 		'\t[--is-installed TITLE DEST]',
 		'\t[--is-outdated TITLE DEST]',
 		'\t[--version]'])
@@ -299,11 +299,11 @@ def logicArgs():
 		action = 'store_true', help = 'show version number')
 	parser.add_argument('-v', '--verbose', dest = 'verbose', default = False,
 		action = 'store_true', help = 'enable verbose output')
-	parser.add_argument('-i', dest = 'dependencies', nargs = '*', 
+	parser.add_argument('-i', dest = 'dependencies', nargs = '*',
 		default = [], help = 'dependencies to install', metavar = 'PKG')
 	parser.add_argument('-o', dest = 'destinations', nargs = '*',
 		default = [], help = 'destination paths to place dependencies', metavar = 'DIR')
-	parser.add_argument('--list-packages', dest = 'list', default = False, 
+	parser.add_argument('--list-packages', dest = 'list', default = False,
 		action = 'store_true', help = 'list all available dependencies')
 	parser.add_argument('--is-installed', dest = 'local', nargs = '*',
 		default = [], help = argparse.SUPPRESS)
@@ -318,13 +318,13 @@ def logicArgs():
 		if len(args.local) != 2:
 			onError('ArgumentError',
 				'arguments must be a set of two (id, dest)')
-		sys.stdout.write('%s\n' % PackageManager().isInstalled({'id':args.local[0], 
+		sys.stdout.write('%s\n' % PackageManager().isInstalled({'id':args.local[0],
 			'dest':args.local[1]}))
 	elif args.dated:
 		if len(args.dated) != 2:
 			onError('ArgumentError',
 				'arguments must be a set of two (id, dest)')
-		oudated = not PackageManager().isEqual({'id':args.dated[0], 
+		oudated = not PackageManager().isEqual({'id':args.dated[0],
 			'dest':args.dated[1]})
 		sys.stdout.write('%s\n' % oudated)
 	elif args.equal:
@@ -343,13 +343,12 @@ def logicArgs():
 			onError('MissingArguments',
 				'arguments -i and -o are required')
 		if len(args.dependencies) != len(args.destinations):
-			onError('NotEnoughArguments', 
+			onError('NotEnoughArguments',
 				'malformed arguments to format destinations for dependencies')
 		requiredDependencies = []
 		for k, v in dict(zip(args.dependencies, args.destinations)).iteritems():
 			requiredDependencies.append({'id':k, 'dest':v})
 		PackageManager(requiredDependencies = requiredDependencies, verbose = args.verbose)
-	
+
 if __name__ in '__main__':
 	logicArgs()
-		
