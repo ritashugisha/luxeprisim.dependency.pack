@@ -10,6 +10,7 @@
 		{"id":"ritashugisha.omnitubeicons", "name":"Icons/", "version":"0.0", "exec":"", "bene":"", "link":"/ritashugisha.omnitubeicons/0.0/omnitubeicons.tar.gz"},
 		{"id":"ritashugisha.glyphmanager", "name":"GlyphManager", "version":"1.2", "exec":"GlyphManager", "bene":"--version", "link":"/ritashugisha.glyphmanager/1.2/GlyphManager.tar.gz"},
 		{"id":"ritashugisha.luxinateicons", "name":"Icons/", "version":"0.0", "exec":"", "bene":"", "link":"/ritashugisha.luxinateicons/0.0/luxinateicons.tar.gz"},
+		{"id":"ritashugisha.magickicons", "name":"Icons/", "version":"0.0", "exec":"", "bene":"", "link":"/ritashugisha.magickicons/0.0/magickicons.tar.gz"},
 		{"id":"rg3.youtube-dl", "name":"youtube-dl", "version":"2014.03", "exec":"youtube-dl", "bene":"--version |cut -d . -f 1-2", "link":"/rg3.youtube-dl/2014.03/youtube-dl.tar.gz"},
 		{"id":"tessus.ffmpeg", "name":"ffmpeg", "version":"2.1", "exec":"ffmpeg", "bene":"-version|sed -n 1p|cut -d ' ' -f 3|cut -d . -f 1-2", "link":"/tessus.ffmpeg/2.1/ffmpeg.tar.gz"},
 		{"id":"imagemagick.imagemagick", "name":"ImageMagick/", "version":"6.8", "exec":"", "bene":"", "link":"/imagemagick.imagemagick/6.8/ImageMagick.tar.gz"},
