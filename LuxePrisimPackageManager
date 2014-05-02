@@ -229,6 +229,9 @@ class PackageManager():
 	"""
 	.. py:function:: listDependencies(self)
 	List all available dependencies from the remote json.
+	
+	:returns: String of basic packages information
+	:rtype: str
 	"""
 	def listDependencies(self):
 		onVerbose('listing available dependencies', self.verbose)
@@ -237,6 +240,20 @@ class PackageManager():
 			outString = '%s{"id":"%s", "name":"%s", "version":"%s", "link":"%s"}\n' % (outString,
 				i['id'], i['name'], i['version'], i['link'])
 		return outString
+		
+	"""
+	.. py:function:: getPackageInfo(self, id)
+	Get all information listed in remote json for @param id.
+	
+	:param str id: ID of package
+	:returns: Dictionary of package information
+	:rtype: dict
+	"""
+	def getPackageInfo(self, id):
+		onVerbose('getting package info for %s' % id, self.verbose)
+		for i in self.resources:
+			if i['id'].lower() == id.lower():
+				return i
 
 	"""
 	.. py:function:: configure(self)
@@ -286,6 +303,7 @@ def getUsage():
 		'\t[--list-packages]',
 		'\t[--is-installed TITLE DEST]',
 		'\t[--is-outdated TITLE DEST]',
+		'\t[--info TITLE]',
 		'\t[--version]'])
 
 """
@@ -311,9 +329,12 @@ def logicArgs():
 		default = [], help = argparse.SUPPRESS)
 	parser.add_argument('--is-outdated', dest = 'dated', nargs = '*',
 		default = [], help = argparse.SUPPRESS)
+	parser.add_argument('--info', dest = 'info', help = argparse.SUPPRESS)
 	args = parser.parse_args()
 	if args.list:
 		sys.stdout.write(PackageManager().listDependencies())
+	elif args.info:
+		sys.stdout.write(str('%s\n' % PackageManager().getPackageInfo(args.info)))
 	elif args.local:
 		if len(args.local) != 2:
 			onError('ArgumentError',
