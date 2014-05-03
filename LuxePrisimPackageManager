@@ -90,16 +90,34 @@ class PackageManager():
 	"""
 	def __init__(self, requiredDependencies = [], verbose = False):
 		self.requiredDependencies = requiredDependencies
-		self.verbose   = verbose
-		onVerbose('reading JSON from <%s>' % JSON, self.verbose)
+		self.verbose = verbose
+		self.config = '%s_config.xml' % os.path.splitext(os.path.abspath(__file__))[0]
 		try:
-			self.jsonRead  = json.loads(urllib.urlopen(JSON).read())
+			if not os.path.exists(self.config):
+				onVerbose('reading JSON from <%s>' % JSON, self.verbose)
+				self.jsonRead  = json.loads(urllib.urlopen(JSON).read())
+				self.author    = self.jsonRead['author']
+				self.contact   = self.jsonRead['contact']
+				self.version   = self.jsonRead['version']
+				self.resources = self.jsonRead['packages']
+			else:
+				onVerbose('reading XML from <%s>' % self.config, self.verbose)
+				import xml.etree.cElementTree as etree
+				import xml.dom.minidom as dom
+				config_ = etree.fromstring(open(self.config, 'r').read())
+				config_dom = dom.parseString(open(self.config, 'r').read())
+				self.author  = config_.find('.//info').attrib['author']
+				self.contact = config_.find('.//info').attrib['contact']
+				self.version = config_.find('.//info').attrib['version']
+				self.resources = []
+				for i in config_dom.getElementsByTagName('entry'):
+					package = {}
+					for j in i.attributes.items():
+						package[j[0]] = j[1]
+					package['id'] = i.firstChild.nodeValue
+					self.resources.append(package)
 		except ValueError:
 			onError('MissingJson', JSON)
-		self.author    = self.jsonRead['author']
-		self.contact   = self.jsonRead['contact']
-		self.version   = self.jsonRead['version']
-		self.resources = self.jsonRead['packages']
 		self.configure()
 		self.installDependencies()
 
@@ -256,6 +274,44 @@ class PackageManager():
 				return i
 
 	"""
+	.. py:function:: writeConfig(self)
+	Write all package information to the root directory as %_config.xml.
+	"""
+	def writeConfig(self):
+		onVerbose('updating config', self.verbose)
+		import xml.etree.cElementTree as etree
+		root = etree.Element('root')
+		info = etree.SubElement(root, 'info')
+		info.set('author', self.author)
+		info.set('contact', self.contact)
+		info.set('version', self.version)
+		info.text = os.path.abspath(__file__)
+		resources = etree.SubElement(root, 'resources')
+		for i in self.resources:
+			entry = etree.SubElement(resources, 'entry')
+			for k, v in i.iteritems():
+				if k != 'id':
+					entry.set(k, v)
+				else:
+					entry.text = v
+		tree = etree.ElementTree(root)
+		tree.write(self.config)
+	
+	"""
+	.. py:function:: updateConfig()
+	Update the root directories config file.
+	"""
+	def updateConfig(self):
+		onVerbose('verifying config update', self.verbose)
+		import xml.etree.cElementTree as etree
+		if os.path.exists(self.config):
+			config_ = etree.fromstring(open(self.config, 'r').read())
+			if config_.find('./info').attrib['version'] < self.version:
+				self.writeConfig()
+		else:
+			self.writeConfig()
+	
+	"""
 	.. py:function:: configure(self)
 	Configure all of PackageManager's variables.
 	"""
@@ -304,6 +360,7 @@ def getUsage():
 		'\t[--is-installed TITLE DEST]',
 		'\t[--is-outdated TITLE DEST]',
 		'\t[--info TITLE]',
+		'\t[--write-config]',
 		'\t[--version]'])
 
 """
@@ -325,6 +382,8 @@ def logicArgs():
 		action = 'store_true', help = 'list all available dependencies')
 	parser.add_argument('--is-installed', dest = 'local', nargs = '*',
 		default = [], help = argparse.SUPPRESS)
+	parser.add_argument('--write-config', dest = 'config', default = False,
+		 action = 'store_true', help = argparse.SUPPRESS)
 	parser.add_argument('--is-equal', dest = 'equal', nargs = '*',
 		default = [], help = argparse.SUPPRESS)
 	parser.add_argument('--is-outdated', dest = 'dated', nargs = '*',
@@ -335,6 +394,8 @@ def logicArgs():
 		sys.stdout.write(PackageManager().listDependencies())
 	elif args.info:
 		sys.stdout.write(str('%s\n' % PackageManager().getPackageInfo(args.info)))
+	elif args.config:
+		PackageManager().updateConfig()
 	elif args.local:
 		if len(args.local) != 2:
 			onError('ArgumentError',
