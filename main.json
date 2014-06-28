@@ -17,6 +17,7 @@
 		{"id":"cactuslabs.imagemagick", "name":"ImageMagick-6.8.8-6.pkg", "version":"6.8", "exec":"", "bene":"", "link":"/cactuslabs.imagemagick/6.8/ImageMagick-6.8.8-6.tar.gz"},
 		{"id":"cactuslabs.imagemagickx", "name":"ImageMagick-6.8.8-6-with-X.pkg", "version":"6.8", "exec":"", "bene":"", "link":"/cactuslabs.imagemagickx/6.8/ImageMagick-6.8.8-6-with-X.tar.gz"},
 		{"id":"ritashugisha.id3tag", "name":"id3tag", "version":"0.0", "exec":"", "bene":"-V", "link":"/ritashugisha.id3tag/0.0/id3tag.tar.gz"},
-		{"id":"manolin.inkmark", "name":"QLMarkdown.qlgenerator", "version":"0.0", "exec":"", "bene":"", "link":"/manolin.inkmark/0.0/QLMarkdown.qlgenerator.tar.gz"}
+		{"id":"manolin.inkmark", "name":"QLMarkdown.qlgenerator", "version":"0.0", "exec":"", "bene":"", "link":"/manolin.inkmark/0.0/QLMarkdown.qlgenerator.tar.gz"},
+		{"id":"ritashugisha.luxinateupdater", "name":"LuxinateUpdater", "version":"0.0", "exec":"", "bene":"", "link":"/ritashugisha.luxinateupdater/0.0/LuxinateUpdater.tar.gz"}
 	]
 }
