@@ -19,6 +19,7 @@
 		{"id":"ritashugisha.id3tag", "name":"id3tag", "version":"0.0", "exec":"", "bene":"-V", "link":"/ritashugisha.id3tag/0.0/id3tag.tar.gz"},
 		{"id":"manolin.inkmark", "name":"QLMarkdown.qlgenerator", "version":"0.0", "exec":"", "bene":"", "link":"/manolin.inkmark/0.0/QLMarkdown.qlgenerator.tar.gz"},
 		{"id":"ritashugisha.luxinateupdater", "name":"LuxinateUpdater", "version":"0.0", "exec":"", "bene":"", "link":"/ritashugisha.luxinateupdater/0.0/LuxinateUpdater.tar.gz"},
-		{"id":"frank.imagemagick", "name":"Filters/", "version":"0.0", "exec":"", "bene":"", "link":"/frank.imagemagick/0.0/magickfilters.tar.gz"}
+		{"id":"frank.imagemagick", "name":"Filters/", "version":"0.0", "exec":"", "bene":"", "link":"/frank.imagemagick/0.0/magickfilters.tar.gz"},
+		{"id":"ritashugisha.magickinstall", "name":"MagickInstall", "version":"0.0", "exec":"", "bene":"", "link":"/ritashugisha.magickinstall/0.0/magickinstall.tar.gz"}
 	]
 }
